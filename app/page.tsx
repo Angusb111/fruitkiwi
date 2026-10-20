@@ -43,6 +43,39 @@ export default function Home() {
           <ListingsMap />
         </Suspense>
       </main>
+
+      <footer className="flex shrink-0 bg-white px-2 py-4">
+        <button className="flex grow justify-center">
+          <Image
+            className="text-black"
+            src="/Map.svg"
+            alt="Kiwi-Fruit Logo"
+            width={35}
+            height={35}
+            priority
+          />
+        </button>
+        <button className="flex grow justify-center">
+          <Image
+            className="text-black"
+            src="/Grid.svg"
+            alt="List"
+            width={35}
+            height={35}
+            priority
+          />
+        </button>
+        <button className="flex grow justify-center">
+          <Image
+            className="text-black"
+            src="/Filter.svg"
+            alt="Kiwi-Fruit Logo"
+            width={35}
+            height={35}
+            priority
+          />
+        </button>
+      </footer>
     </div>
   );
 }
