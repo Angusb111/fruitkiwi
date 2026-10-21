@@ -7,6 +7,7 @@ const nextConfig: NextConfig = {
   },
   cacheComponents: true,
   partialPrefetching: true,
+  allowedDevOrigins: ['192.168.0.94', 'kept-sixtieth-consonant.ngrok-free.dev'],
   turbopack: {
     rules: {
       "*.css": {

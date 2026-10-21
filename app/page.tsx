@@ -1,10 +1,18 @@
 
 import Image from 'next/image';
 import { Suspense } from 'react';
-import FruitMap from './components/Map';
 import { createClient } from '@/utils/supabase/server';
+import BrowseView from './components/BrowseView';
 
-async function ListingsMap() {
+type Listing = {
+  id: number;
+  address_plain: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  type: string | null;
+};
+
+async function ListingsContent() {
   const supabase = await createClient();
 
   const { data: listings, error } = await supabase
@@ -13,26 +21,32 @@ async function ListingsMap() {
 
   if (error) {
     console.error('Failed to load listings:', error.message);
+
+    return (
+      <div className="p-6 text-red-600">
+        Failed to load fruit listings.
+      </div>
+    );
   }
 
-  return <FruitMap listings={listings ?? []} />;
+  return <BrowseView listings={(listings ?? []) as Listing[]} />;
 }
 
 export default function Home() {
   return (
-    <div className="flex h-screen flex-col bg-zinc-50">
+    <div className="flex h-dvh flex-col bg-zinc-50">
       <header className="flex shrink-0 items-center bg-white px-6 py-4 md:px-16">
         <Image
           className="h-auto w-[200px] md:w-[300px]"
           src="/wordmark.svg"
-          alt="Kiwi-Fruit Logo"
+          alt="FruitKiwi"
           width={300}
           height={70}
           priority
         />
       </header>
 
-      <main className="min-h-0 flex-1">
+      <main className="relative min-h-0 flex-1">
         <Suspense
           fallback={
             <div className="flex h-full items-center justify-center">
@@ -40,42 +54,9 @@ export default function Home() {
             </div>
           }
         >
-          <ListingsMap />
+          <ListingsContent />
         </Suspense>
       </main>
-
-      <footer className="flex shrink-0 bg-white px-2 py-4">
-        <button className="flex grow justify-center">
-          <Image
-            className="text-black"
-            src="/Map.svg"
-            alt="Kiwi-Fruit Logo"
-            width={35}
-            height={35}
-            priority
-          />
-        </button>
-        <button className="flex grow justify-center">
-          <Image
-            className="text-black"
-            src="/Grid.svg"
-            alt="List"
-            width={35}
-            height={35}
-            priority
-          />
-        </button>
-        <button className="flex grow justify-center">
-          <Image
-            className="text-black"
-            src="/Filter.svg"
-            alt="Kiwi-Fruit Logo"
-            width={35}
-            height={35}
-            priority
-          />
-        </button>
-      </footer>
     </div>
   );
 }
